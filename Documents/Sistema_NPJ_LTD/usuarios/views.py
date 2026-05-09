@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+
 
 def login_view(request):
 
@@ -7,6 +9,7 @@ def login_view(request):
 
         username = request.POST.get('username')
         password = request.POST.get('password')
+        tipo_usuario = request.POST.get('tipo_usuario')
 
         user = authenticate(request, username=username, password=password)
 
@@ -14,7 +17,19 @@ def login_view(request):
 
             login(request, user)
 
-            return redirect('dashboard')
+            if tipo_usuario == 'coordenador' and user.groups.filter(name='Coordenador').exists():
+
+                return redirect('dashboard')
+
+            elif tipo_usuario == 'aluno' and user.groups.filter(name='Aluno').exists():
+
+                return redirect('cadastro_cliente')
+
+            else:
+
+                return render(request, 'usuarios/login.html', {
+                    'erro': 'Você não tem permissão para acessar esse perfil.'
+                })
 
         else:
 
@@ -24,6 +39,13 @@ def login_view(request):
 
     return render(request, 'usuarios/login.html')
 
+@login_required
 def dashboard_view(request):
 
     return render(request, 'usuarios/dashboard.html')
+
+def logout_view(request):
+
+    logout(request)
+
+    return redirect('login')
