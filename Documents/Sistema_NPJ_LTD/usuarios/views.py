@@ -23,7 +23,7 @@ def login_view(request):
 
             elif tipo_usuario == 'aluno' and user.groups.filter(name='Aluno').exists():
 
-                return redirect('cadastro_cliente')
+                return redirect('portal_aluno')
 
             else:
 
