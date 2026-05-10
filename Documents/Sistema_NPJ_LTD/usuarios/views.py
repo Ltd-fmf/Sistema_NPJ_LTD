@@ -42,6 +42,12 @@ def login_view(request):
 @login_required
 def dashboard_view(request):
 
+    if not request.user.groups.filter(name='Coordenador').exists():
+
+        return render(request, 'usuarios/login.html', {
+            'erro': 'Você não tem permissão para acessar o dashboard.'
+        })
+
     return render(request, 'usuarios/dashboard.html')
 
 def logout_view(request):
