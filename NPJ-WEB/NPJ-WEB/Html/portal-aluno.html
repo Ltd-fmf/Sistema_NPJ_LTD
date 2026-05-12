@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NPJ Smart | Portal do Aluno</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --mf-vinho: #8B1A4F;
+            --mf-dourado: #EAB308;
+            --branco: #FFFFFF;
+            --cinza-bg: #F8F9FB;
+            --texto-p: #1E293B;
+            --texto-s: #64748B;
+            --borda: #E2E8F0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--branco); display: flex; height: 100vh; color: var(--texto-p); overflow: hidden; }
+
+        /* SIDEBAR PADRONIZADA */
+        .sidebar { width: 280px; background: var(--mf-vinho); display: flex; flex-direction: column; padding: 30px 20px; color: white; z-index: 10; }
+        .brand { margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .brand h1 { font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; }
+        .brand .logo-main { font-size: 17px; color: var(--mf-dourado); font-weight: 700; display: block; margin-top: 4px; line-height: 1.2; }
+
+        .nav-link {
+            display: flex; align-items: center; padding: 14px 18px; color: rgba(255,255,255,0.7);
+            text-decoration: none; border-radius: 12px; margin-bottom: 8px; font-size: 14px;
+            font-weight: 600; transition: 0.3s; cursor: pointer; border: none; background: none; width: 100%; text-align: left;
+        }
+        .nav-link i { margin-right: 15px; width: 20px; text-align: center; font-size: 18px; }
+        .nav-link:hover { background: rgba(255,255,255,0.1); color: white; }
+        .nav-link.active { background: var(--branco); color: var(--mf-vinho); font-weight: 700; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+        /* BOTÃO SAIR (ESTILO COORDENADOR) */
+        .logout-link { color: #FDA4AF !important; margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .logout-link:hover { background: #be123c !important; color: white !important; }
+
+        /* CONTEÚDO PRINCIPAL */
+        .main-content { flex: 1; display: flex; flex-direction: column; background-color: var(--branco); }
+        header { padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--borda); height: 60px; }
+        .breadcrumb { font-size: 12px; text-transform: uppercase; color: var(--texto-s); font-weight: 700; }
+
+        .container { padding: 40px; display: flex; flex-direction: column; gap: 30px; width: 100%; max-width: 1150px; margin: 0 auto; overflow-y: auto; }
+        .view-section { display: none; }
+        .view-section.active { display: block; animation: fadeIn 0.3s ease; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ABA BOXES */
+        .aba-box {
+            background: var(--branco); border-radius: 16px; border: 1px solid var(--borda); 
+            width: 100%; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.03); margin-bottom: 25px;
+        }
+        .aba-header { background: var(--mf-vinho); color: white; padding: 18px 25px; display: flex; align-items: center; gap: 12px; }
+        .aba-header i { font-size: 18px; color: var(--mf-dourado); }
+        .aba-header h2 { font-size: 13px; font-weight: 600; text-transform: uppercase; }
+        .aba-content { padding: 25px; }
+
+        /* TABELAS */
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 15px 25px; font-size: 11px; color: var(--texto-s); text-transform: uppercase; background: var(--cinza-bg); }
+        td { padding: 16px 25px; font-size: 13px; border-bottom: 1px solid var(--borda); color: var(--texto-p); }
+
+        /* BOTÕES DE AÇÃO INTERNA */
+        .btn-acao {
+            display: flex; align-items: center; gap: 15px; padding: 18px; border-radius: 12px;
+            border: 1px solid var(--borda); text-decoration: none; color: var(--texto-p);
+            transition: 0.2s; margin-bottom: 12px; background: #F8FAFC;
+        }
+        .btn-acao:hover { border-color: var(--mf-vinho); background: #FFF1F7; transform: translateX(5px); }
+        .btn-acao i.icon-main { font-size: 20px; color: var(--mf-vinho); }
+        .btn-acao h4 { font-weight: 700; font-size: 15px; color: var(--mf-vinho); }
+        .btn-acao p { font-size: 12px; color: var(--texto-s); }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="brand">
+            <h1>Portal do Aluno</h1>
+            <span class="logo-main">Martha Falcão WYDEN</span>
+        </div>
+        <nav>
+            <button class="nav-link active" onclick="changeTab('inicio', this)">
+                <i class="fas fa-chart-pie"></i> Visão Geral
+            </button>
+            <button class="nav-link" onclick="changeTab('meus-casos', this)">
+                <i class="fas fa-briefcase"></i> Meus Casos
+            </button>
+            <button class="nav-link" onclick="changeTab('relatorios', this)">
+                <i class="fas fa-file-invoice"></i> Relatórios
+            </button>
+        </nav>
+        
+        <button class="nav-link logout-link" onclick="fazerLogout()">
+            <i class="fas fa-power-off"></i> Sair do Portal
+        </button>
+    </aside>
+
+    <div class="main-content">
+        <header>
+            <span id="header-title" class="breadcrumb">VISÃO GERAL</span>
+        </header>
+
+        <main class="container">
+            
+            <div id="inicio" class="view-section active">
+                <div class="aba-box">
+                    <div class="aba-header">
+                        <i class="fas fa-user-graduate"></i>
+                        <h2>Informações do Aluno</h2>
+                    </div>
+                    <div class="aba-content">
+                        <h3 style="font-size: 20px; font-weight: 800; color: var(--mf-vinho);">Maria Eduarda Silva</h3>
+                        <p style="color: var(--texto-s); font-weight: 600; margin-top: 4px; font-size: 13px;">Matrícula: 20240001 • Direito • 9º Período</p>
+                    </div>
+                </div>
+
+                <div class="aba-box">
+                    <div class="aba-header">
+                        <i class="fas fa-layer-group"></i>
+                        <h2>Ações Rápidas</h2>
+                    </div>
+                    <div class="aba-content">
+                        <a href="novo-assistido.html" class="btn-acao">
+                            <i class="fas fa-user-plus icon-main"></i>
+                            <div>
+                                <h4>Novo Assistido</h4>
+                                <p>Iniciar triagem e abertura de prontuário.</p>
+                            </div>
+                            <i class="fas fa-chevron-right" style="margin-left: auto; color: var(--borda);"></i>
+                        </a>
+                        <a href="verificar-assistido.html" class="btn-acao">
+                            <i class="fas fa-search icon-main"></i>
+                            <div>
+                                <h4>Verificar Assistido</h4>
+                                <p>Consultar histórico e processos por CPF.</p>
+                            </div>
+                            <i class="fas fa-chevron-right" style="margin-left: auto; color: var(--borda);"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="meus-casos" class="view-section">
+                <div class="aba-box">
+                    <div class="aba-header">
+                        <i class="fas fa-folder-open"></i>
+                        <h2>Processos Vinculados</h2>
+                    </div>
+                    <div class="aba-content" style="padding: 0;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Assistido</th>
+                                    <th>Área Jurídica</th>
+                                    <th>Data de Início</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>João Ricardo Souza</strong></td>
+                                    <td>Cível / Família</td>
+                                    <td>15/04/2026</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Carla Menezes</strong></td>
+                                    <td>Cível</td>
+                                    <td>02/05/2026</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="relatorios" class="view-section">
+                <div class="aba-box">
+                    <div class="aba-header">
+                        <i class="fas fa-file-pdf"></i>
+                        <h2>Envios Realizados</h2>
+                    </div>
+                    <div class="aba-content" style="padding: 0;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Arquivo</th>
+                                    <th>Data de Envio</th>
+                                    <th style="text-align: center;">Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Relatório_Abril_2026.pdf</td>
+                                    <td>05/05/2026</td>
+                                    <td style="text-align: center;"><i class="fas fa-download" style="color: var(--mf-vinho); cursor: pointer;"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        function changeTab(tabId, element) {
+            document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            element.classList.add('active');
+            
+            const titles = { 'inicio': 'Visão Geral', 'meus-casos': 'Meus Casos', 'relatorios': 'Relatórios' };
+            document.getElementById('header-title').innerText = titles[tabId].toUpperCase();
+        }
+
+        function fazerLogout() {
+            window.location.href = "index.html"; 
+        }
+    </script>
+</body>
+</html>

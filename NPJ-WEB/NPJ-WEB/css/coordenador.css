@@ -1,0 +1,83 @@
+:root {
+    --vinho: #8B1A4F;
+    --amarelo: #EAB308;
+    --fundo: #F8FAFC;
+}
+
+body {
+    background-color: var(--fundo);
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-bottom: 80px;
+}
+
+/* Header */
+.header-npj {
+    background: var(--vinho);
+    color: white;
+    padding: 12px 15px;
+}
+
+.header-content { display: flex; justify-content: space-between; align-items: center; }
+.logo-area { display: flex; align-items: center; gap: 10px; }
+.logo-area h1 { font-size: 15px; margin: 0; }
+.logo-area span { font-size: 9px; opacity: 0.8; display: block; }
+
+/* Dashboard */
+.title-page { text-align: center; font-size: 16px; margin: 20px 0; color: #334155; }
+.card-white {
+    background: white;
+    margin: 0 15px 15px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.card-label {
+    background: var(--vinho);
+    color: white;
+    padding: 8px 12px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.menu-row {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.icon-v { color: var(--vinho); font-size: 22px; }
+.text { flex: 1; margin-left: 12px; font-weight: 600; font-size: 14px; color: #475569; }
+.badge-y { color: var(--amarelo); }
+.badge-b { color: #92400E; }
+
+/* Gráficos Circulares */
+.circles-flex { display: flex; justify-content: space-around; padding: 15px 0; }
+.c-circle {
+    width: 60px;
+    height: 60px;
+    border: 6px solid #e2e8f0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+.v-border { border-top-color: var(--vinho); }
+.c-label { font-size: 9px; color: #64748b; font-weight: bold; }
+
+/* Footer */
+.footer-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: white;
+    display: flex;
+    padding: 12px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.f-item { flex: 1; text-align: center; color: var(--vinho); font-weight: bold; font-size: 10px; }
+.f-item i { display: block; font-size: 20px; margin-bottom: 3px; }
