@@ -48,7 +48,7 @@ def dashboard_view(request):
             'erro': 'Você não tem permissão para acessar o dashboard.'
         })
 
-    return render(request, 'usuarios/dashboard.html')
+    return render(request, 'usuarios/portal_coordenador.html')
 
 def logout_view(request):
 
