@@ -1,0 +1,216 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NPJ Smart | Coordenador</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --mf-vinho: #8B1A4F;
+            --mf-dourado: #EAB308;
+            --branco: #FFFFFF;
+            --cinza-bg: #F8F9FB;
+            --texto-p: #1E293B;
+            --texto-s: #64748B;
+            --borda: #E2E8F0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--branco); display: flex; height: 100vh; color: var(--texto-p); overflow: hidden; }
+
+        /* SIDEBAR */
+        .sidebar { width: 280px; background: var(--mf-vinho); display: flex; flex-direction: column; padding: 30px 20px; color: white; z-index: 10; }
+        .brand { margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .brand h1 { font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; }
+        .brand .logo-main { font-size: 17px; color: var(--mf-dourado); font-weight: 700; display: block; margin-top: 4px; line-height: 1.2; }
+
+        .nav-link {
+            display: flex; align-items: center; padding: 14px 18px; color: rgba(255,255,255,0.7);
+            text-decoration: none; border-radius: 12px; margin-bottom: 8px; font-size: 14px;
+            font-weight: 600; transition: 0.3s; cursor: pointer; border: none; background: none; width: 100%; text-align: left;
+        }
+        .nav-link i { margin-right: 15px; width: 20px; text-align: center; font-size: 18px; }
+        .nav-link:hover { background: rgba(255,255,255,0.1); color: white; }
+        .nav-link.active { background: var(--branco); color: var(--mf-vinho); font-weight: 700; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+        .logout-link { color: #FDA4AF !important; margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .logout-link:hover { background: #be123c !important; color: white !important; }
+
+        /* CONTEÚDO PRINCIPAL */
+        .main-content { flex: 1; display: flex; flex-direction: column; background-color: var(--branco); }
+        header { padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--borda); height: 60px; }
+        .breadcrumb { font-size: 12px; text-transform: uppercase; color: var(--texto-s); font-weight: 700; }
+
+        .container { padding: 40px; display: flex; flex-direction: column; gap: 30px; width: 100%; max-width: 1150px; margin: 0 auto; overflow-y: auto; }
+        .section-view { display: none; }
+        .section-view.active { display: block; animation: fadeIn 0.3s ease; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* CARDS E TABELAS */
+        .card-container { border: 1px solid var(--borda); border-radius: 16px; overflow: hidden; background-color: var(--branco); box-shadow: 0 4px 20px rgba(0,0,0,0.03); margin-bottom: 20px; }
+        .card-header { background-color: var(--mf-vinho); padding: 18px 25px; display: flex; align-items: center; gap: 12px; color: white; }
+        .card-header h3 { font-size: 13px; font-weight: 600; text-transform: uppercase; }
+        
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 15px 25px; font-size: 11px; color: var(--texto-s); text-transform: uppercase; background: var(--cinza-bg); }
+        td { padding: 16px 25px; font-size: 13px; border-bottom: 1px solid var(--borda); }
+
+        .btn-view { background: var(--mf-vinho); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 600; transition: 0.2s; }
+        .btn-view:hover { background: var(--mf-dourado); color: var(--mf-vinho); }
+
+        .dashboard-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .dash-card { background: var(--branco); padding: 22px; border-radius: 16px; border: 1px solid var(--borda); border-left: 4px solid var(--mf-dourado); }
+        .dash-card .value { font-size: 28px; font-weight: 800; color: var(--mf-vinho); display: block; }
+        .dash-card .label { font-size: 11px; color: var(--texto-s); font-weight: 700; text-transform: uppercase; }
+
+        /* MODAL */
+        #reportModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 100; justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 30px; border-radius: 16px; width: 90%; max-width: 600px; position: relative; }
+        .close-modal { position: absolute; top: 20px; right: 20px; cursor: pointer; font-size: 20px; color: var(--texto-s); }
+        .report-detail-item { margin-bottom: 15px; border-bottom: 1px solid var(--borda); padding-bottom: 8px; }
+        .report-detail-item label { display: block; font-size: 11px; color: var(--texto-s); font-weight: 700; text-transform: uppercase; }
+        .report-detail-item span { font-size: 15px; font-weight: 600; color: var(--mf-vinho); }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="brand">
+            <h1>Portal do Coordenador</h1>
+            <span class="logo-main">Martha Falcão WYDEN</span>
+        </div>
+        <nav>
+            <button class="nav-link active" onclick="showTab('dashboard', this)">
+                <i class="fas fa-chart-line"></i> Dashboard
+            </button>
+            <button class="nav-link" onclick="showTab('relatorios', this)">
+                <i class="fas fa-file-contract"></i> Relatórios dos Alunos
+            </button>
+            <button class="nav-link" onclick="showTab('historico', this)">
+                <i class="fas fa-history"></i> Histórico de Ações
+            </button>
+        </nav>
+        
+        <button class="nav-link logout-link" onclick="fazerLogout()">
+            <i class="fas fa-power-off"></i> Sair do Sistema
+        </button>
+    </aside>
+
+    <main class="main-content">
+        <header>
+            <span class="breadcrumb" id="tab-title">DASHBOARD DE GESTÃO</span>
+            </header>
+
+        <div class="container">
+            <section id="dashboard" class="section-view active">
+                <div class="dashboard-grid">
+                    <div class="dash-card"><span class="value">342</span><span class="label">Alunos Ativos</span></div>
+                    <div class="dash-card"><span class="value">1.450</span><span class="label">Processos</span></div>
+                    <div class="dash-card"><span class="value">08</span><span class="label">Prazos Hoje</span></div>
+                    <div class="dash-card"><span class="value">96%</span><span class="label">Eficiência</span></div>
+                </div>
+            </section>
+
+            <section id="relatorios" class="section-view">
+                <div class="card-container">
+                    <div class="card-header">
+                        <i class="fas fa-user-graduate"></i>
+                        <h3>Relatórios de Atividades por Aluno</h3>
+                    </div>
+                    <div class="card-body">
+                        <table id="alunosTable">
+                            <thead>
+                                <tr>
+                                    <th>Matrícula</th>
+                                    <th>Nome do Aluno</th>
+                                    <th>Horas Acumuladas</th>
+                                    <th>Último Relatório</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="historico" class="section-view">
+                <div class="card-container">
+                    <div class="card-header"><i class="fas fa-stream"></i><h3>Histórico Recente</h3></div>
+                    <div class="card-body">
+                        <table>
+                            <thead><tr><th>Usuário</th><th>Ação</th><th>Data</th></tr></thead>
+                            <tbody><tr><td><strong>Miguel Silva</strong></td><td>Validou Relatório #102</td><td>10/05/2026</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div id="reportModal">
+        <div class="modal-content">
+            <i class="fas fa-times close-modal" onclick="closeModal()"></i>
+            <h2 style="color: var(--mf-vinho); margin-bottom: 20px; font-family: 'Inter';">Detalhes do Relatório</h2>
+            <div id="modalData"></div>
+            <button class="btn-view" style="width: 100%; padding: 12px; margin-top: 10px;" onclick="closeModal()">Validar e Fechar</button>
+        </div>
+    </div>
+
+    <script>
+        const alunos = [
+            { id: "2024001", nome: "Maria Eduarda Silva", horas: "85h", data: "09/05/2026", desc: "Atendimento de triagem familiar e elaboração de petição inicial de alimentos." },
+            { id: "2024042", nome: "João Ricardo Souza", horas: "42h", data: "08/05/2026", desc: "Acompanhamento de audiência conciliatória na 3ª Vara Cível." },
+            { id: "2023155", nome: "Ana Beatriz Costa", horas: "110h", data: "10/05/2026", desc: "Pesquisa jurisprudencial sobre danos morais em transporte aéreo." }
+        ];
+
+        function loadTable() {
+            const tbody = document.querySelector("#alunosTable tbody");
+            tbody.innerHTML = alunos.map(aluno => `
+                <tr>
+                    <td>${aluno.id}</td>
+                    <td><strong>${aluno.nome}</strong></td>
+                    <td>${aluno.horas}</td>
+                    <td>${aluno.data}</td>
+                    <td><button class="btn-view" onclick="openModal('${aluno.id}')">VISUALIZAR</button></td>
+                </tr>
+            `).join('');
+        }
+
+        function openModal(id) {
+            const aluno = alunos.find(a => a.id === id);
+            document.getElementById('modalData').innerHTML = `
+                <div class="report-detail-item"><label>Aluno</label><span>${aluno.nome}</span></div>
+                <div class="report-detail-item"><label>Matrícula</label><span>${aluno.id}</span></div>
+                <div class="report-detail-item"><label>Data da Atividade</label><span>${aluno.data}</span></div>
+                <div class="report-detail-item"><label>Descrição das Atividades</label><p style="font-size: 13px; line-height: 1.5; margin-top: 5px;">${aluno.desc}</p></div>
+            `;
+            document.getElementById('reportModal').style.display = 'flex';
+        }
+
+        function closeModal() { document.getElementById('reportModal').style.display = 'none'; }
+
+        function showTab(tabId, element) {
+            document.querySelectorAll('.section-view').forEach(v => v.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            element.classList.add('active');
+            document.getElementById('tab-title').innerText = tabId.toUpperCase().replace('RELATORIOS', 'RELATÓRIOS DOS ALUNOS');
+            if(tabId === 'relatorios') loadTable();
+        }
+
+        // FUNÇÃO DE SAIR DIRETO (Sem confirmação)
+        function fazerLogout() {
+    window.location.href = "{% url 'logout' %}";
+}
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('reportModal')) closeModal();
+        }
+    </script>
+</body>
+</html>
