@@ -1,6 +1,7 @@
 from django.db import models
 from usuarios.models import Usuario
 from clientes.models import Assistido
+
 class Atendimento(models.Model):
 
     AREA_CHOICES = [
