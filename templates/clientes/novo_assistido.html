@@ -17,59 +17,62 @@
     </header>
 
     <main class="content-wrapper">
+        <form method="Post">
+            {% csrf_token %}
+
         <!-- Etapa 1: Dados Completos do Cliente -->
         <section class="form-step active" id="step-1">
             <div class="section-header">1. DADOS DO CLIENTE</div>
             <div class="section-body">
                 <div class="input-group">
                     <label>Nome Completo</label>
-                    <input type="text" placeholder="Nome completo" class="npj-input">
+                    <input type="text" name="nome_completo" placeholder="Nome completo" class="npj-input">
                 </div>
 
                 <div class="input-row">
                     <div class="input-group">
                         <label>RG</label>
-                        <input type="text" placeholder="0000000-0" class="npj-input">
+                        <input type="text" name="rg" placeholder="0000000-0" class="npj-input">
                     </div>
                     <div class="input-group">
                         <label>CPF</label>
-                        <input type="text" placeholder="000.000.000-00" class="npj-input">
+                        <input type="text" name="cpf" placeholder="000.000.000-00" class="npj-input">
                     </div>
                 </div>
 
                 <div class="input-row">
                     <div class="input-group">
                         <label>Nacionalidade</label>
-                        <input type="text" placeholder="Ex: Brasileira" class="npj-input">
+                        <input type="text" name="nacionalidade" placeholder="Ex: Brasileira" class="npj-input">
                     </div>
                     <div class="input-group">
                         <label>Profissão</label>
-                        <input type="text" placeholder="Ex: Autônomo" class="npj-input">
+                        <input type="text" name="profissao" placeholder="Ex: Autônomo" class="npj-input">
                     </div>
                 </div>
 
                 <div class="input-group">
-                    <label>Endereço</label>
-                    <input type="text" placeholder="Rua, número, bairro e cidade" class="npj-input">
+                    <label>Endereco</label>
+                    <input type="text" name="endereco" placeholder="Rua, número, bairro e cidade" class="npj-input">
                 </div>
 
                 <div class="input-row">
                     <div class="input-group">
                         <label>Telefone</label>
-                        <input type="text" placeholder="(92) 0000-0000" class="npj-input">
+                        <input type="text" name="telefone" placeholder="(92) 0000-0000" class="npj-input">
                     </div>
                     <div class="input-group">
                         <label>WhatsApp</label>
-                        <input type="text" placeholder="(92) 90000-0000" class="npj-input">
+                        <input type="text" name="whatsapp" placeholder="(92) 90000-0000" class="npj-input">
                     </div>
                 </div>
 
                 <div class="input-group">
                     <label>E-mail</label>
-                    <input type="email" placeholder="exemplo@email.com" class="npj-input">
+                    <input type="email" name="email" placeholder="exemplo@email.com" class="npj-input">
                 </div>
 
-                <button class="btn-next" onclick="nextStep(2)">Próxima Etapa <i class="fas fa-chevron-right"></i></button>
+                <button type="button" class="btn-next" onclick="nextStep(2)">Próxima Etapa <i class="fas fa-chevron-right"></i></button>
             </div>
         </section>
 
@@ -85,8 +88,8 @@
                     </button>
                 <input type="file" id="file-input" accept="image/*" style="display: none;">
                 <div class="nav-buttons">
-                    <button class="btn-back" onclick="nextStep(1)">Voltar</button>
-                    <button class="btn-next" onclick="nextStep(3)">Próxima</button>
+                    <button type="button" class="btn-back" onclick="nextStep(1)">Voltar</button>
+                    <button type="button" class="btn-next" onclick="nextStep(3)">Próxima</button>
                 </div>
             </div>
         </section>
@@ -97,8 +100,8 @@
             <div class="section-body">
                 <textarea class="npj-textarea" placeholder="Descreva o caso detalhadamente..."></textarea>
                 <div class="nav-buttons">
-                    <button class="btn-back" onclick="nextStep(2)">Voltar</button>
-                    <button class="btn-next" onclick="nextStep(4)">Ir para Assinatura</button>
+                    <button type="button" class="btn-back" onclick="nextStep(2)">Voltar</button>
+                    <button type="button" class="btn-next" onclick="nextStep(4)">Ir para Assinatura</button>
                 </div>
             </div>
         </section>
@@ -110,13 +113,14 @@
                 <div class="signature-container">
                     <canvas id="signature-pad" class="signature-canvas"></canvas>
                 </div>
-                <button class="btn-clear" onclick="clearCanvas()"><i class="fas fa-eraser"></i> Limpar</button>
+                <button type="button" class="btn-clear" onclick="clearCanvas()"><i class="fas fa-eraser"></i> Limpar</button>
                 <div class="nav-buttons">
-                    <button class="btn-back" onclick="nextStep(3)">Voltar</button>
-                    <button class="btn-finalizar">Finalizar e Salvar</button>
+                    <button type="button" class="btn-back" onclick="nextStep(3)">Voltar</button>
+                    <button type="submit" class="btn-finalizar">Finalizar e Salvar</button>
                 </div>
             </div>
         </section>
+        </form>
     </main>
     <script src="{% static 'js/aluno.js' %}"></script>
 </body>
