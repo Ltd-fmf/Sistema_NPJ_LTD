@@ -34,4 +34,5 @@ O sistema foi desenvolvido para auxiliar na organização e gerenciamento das at
 
 ## Projeto desenvolvido para o LTD/NPJ.
 
-<img width="503" height="496" alt="WhatsApp_Image_2026-05-13_at_18 43 51-removebg-preview" src="https://github.com/user-attachments/assets/0f5b0758-1ccc-4e0e-b06a-37f92fb79fad" />
+<img width="906" height="892" alt="WhatsApp Image 2026-05-13 at 18 43 51" src="https://github.com/user-attachments/assets/a15889e8-d82b-499f-a500-8da0e4a2e1a0" />
+
