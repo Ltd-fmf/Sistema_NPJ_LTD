@@ -16,7 +16,7 @@
         
         /* Seção Superior - Branding */
         .header { text-align: center; padding: 40px 20px; }
-        .logo-box { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 12px; display: inline-block; }
+        .logo-box { background:transparent; padding: 15px; border-radius: 12px; display: inline-block; }
         .yellow-text { color: #FFD700; font-weight: bold; letter-spacing: 1px; font-size: 12px; }
 
         /* Card de Login - Estilo "Bottom Sheet" */
@@ -44,10 +44,10 @@
 </head>
 <body>
     <div class="header">
-        <div class="logo-box"><i class="fas fa-balance-scale fa-2x"></i></div>
-        <h1 style="margin: 10px 0 5px;">Sistema NPJ</h1>
-        <p class="yellow-text">MARTHA FALCÃO WYDEN</p>
-        <p style="font-size: 14px; opacity: 0.8;">Gerenciamento de casos jurídicos do NPJ.</p>
+        <div class="logo-box" style="padding: 0; margin: 0;"><img src="{% static 'img/logo_npj.png' %}" 
+     alt="Logo"
+     style="width: 220px; display: block; margin: 0 auto;">
+        <p style="font-size: 14px; opacity: 0.8;">Gerenciamento de casos jurídicos do NPJ</p>
     </div>
 
     <div class="login-card">
